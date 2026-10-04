@@ -1,0 +1,2 @@
+需要在安装完整 Xcode 的 Mac 上运行；当前没有 xcodebuild。
+xcodebuild exit: 2

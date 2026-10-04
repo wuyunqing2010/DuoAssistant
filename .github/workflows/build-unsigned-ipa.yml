@@ -1,0 +1,77 @@
+name: Build unsigned iPhone app (manual only)
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_run:
+        description: 'Authorize one <=5-minute standard macOS build in this public repository; unsigned artifact retained for 1 day.'
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: manual-unsigned-iphone-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  unsigned-device-build:
+    # This manually invoked build is restricted to the explicitly approved public repository.
+    if: github.repository == 'wuyunqing2010/DuoAssistant' && github.event.repository.private == false && inputs.confirm_run == true
+    runs-on: macos-15
+    timeout-minutes: 5
+    steps:
+      - name: Check out only this source commit
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Record installed toolchain
+        run: |
+          set -euo pipefail
+          xcodebuild -version
+          xcodebuild -showsdks
+          swift --version
+
+      - name: Run structural checks and native core tests
+        run: |
+          set -euo pipefail
+          python3 Scripts/verify_source.py
+          swift test
+
+      - name: Build unsigned iPhone device app
+        run: |
+          set -euo pipefail
+          xcodebuild -project PurchaseAssistant.xcodeproj \
+            -scheme PurchaseAssistant -configuration Release \
+            -sdk iphoneos -destination 'generic/platform=iOS' \
+            -derivedDataPath build/DerivedData \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY='' DEVELOPMENT_TEAM='' build
+
+      - name: Package unsigned IPA for later user signing
+        run: |
+          set -euo pipefail
+          APP='build/DerivedData/Build/Products/Release-iphoneos/PurchaseAssistant.app'
+          test -d "$APP"
+          EXECUTABLE=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$APP/Info.plist")
+          /usr/bin/file "$APP/$EXECUTABLE"
+          /usr/bin/lipo -verify_arch arm64 "$APP/$EXECUTABLE"
+          mkdir -p build/package/Payload build/artifacts
+          /usr/bin/ditto "$APP" build/package/Payload/PurchaseAssistant.app
+          (cd build/package && /usr/bin/ditto -c -k --keepParent Payload ../artifacts/PurchaseAssistant-unsigned.ipa)
+          /usr/bin/unzip -t build/artifacts/PurchaseAssistant-unsigned.ipa
+          /usr/bin/shasum -a 256 build/artifacts/PurchaseAssistant-unsigned.ipa > build/artifacts/SHA256SUMS.txt
+          printf '%s\n' 'UNSIGNED DEVICE BUILD: requires user-controlled valid signing before installation. Not a simulator build or App Store export.' > build/artifacts/READ-ME.txt
+
+      - name: Keep unsigned artifact for one day
+        uses: actions/upload-artifact@v7
+        with:
+          name: PurchaseAssistant-unsigned-${{ github.run_id }}
+          path: build/artifacts/
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0

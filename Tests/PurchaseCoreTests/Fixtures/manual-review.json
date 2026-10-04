@@ -1,0 +1,134 @@
+[
+  {
+    "name": "填写一致",
+    "budget": "10000",
+    "total": "9999",
+    "quantity": "1",
+    "storage": "256GB",
+    "currencyConfirmed": true,
+    "feesConfirmed": true,
+    "oneTimeConfirmed": true,
+    "expectedConsistent": true
+  },
+  {
+    "name": "刚好预算",
+    "budget": "10000",
+    "total": "10000.00",
+    "quantity": "1",
+    "storage": "256GB",
+    "currencyConfirmed": true,
+    "feesConfirmed": true,
+    "oneTimeConfirmed": true,
+    "expectedConsistent": true
+  },
+  {
+    "name": "超过一分钱",
+    "budget": "10000",
+    "total": "10000.01",
+    "quantity": "1",
+    "storage": "256GB",
+    "currencyConfirmed": true,
+    "feesConfirmed": true,
+    "oneTimeConfirmed": true,
+    "expectedConsistent": false
+  },
+  {
+    "name": "未知总额",
+    "budget": "10000",
+    "total": "",
+    "quantity": "1",
+    "storage": "256GB",
+    "currencyConfirmed": true,
+    "feesConfirmed": true,
+    "oneTimeConfirmed": true,
+    "expectedConsistent": false
+  },
+  {
+    "name": "错误数量",
+    "budget": "10000",
+    "total": "9999",
+    "quantity": "2",
+    "storage": "256GB",
+    "currencyConfirmed": true,
+    "feesConfirmed": true,
+    "oneTimeConfirmed": true,
+    "expectedConsistent": false
+  },
+  {
+    "name": "未知数量",
+    "budget": "10000",
+    "total": "9999",
+    "quantity": "",
+    "storage": "256GB",
+    "currencyConfirmed": true,
+    "feesConfirmed": true,
+    "oneTimeConfirmed": true,
+    "expectedConsistent": false
+  },
+  {
+    "name": "容量不一致",
+    "budget": "10000",
+    "total": "9999",
+    "quantity": "1",
+    "storage": "512GB",
+    "currencyConfirmed": true,
+    "feesConfirmed": true,
+    "oneTimeConfirmed": true,
+    "expectedConsistent": false
+  },
+  {
+    "name": "未知币种",
+    "budget": "10000",
+    "total": "9999",
+    "quantity": "1",
+    "storage": "256GB",
+    "currencyConfirmed": false,
+    "feesConfirmed": true,
+    "oneTimeConfirmed": true,
+    "expectedConsistent": false
+  },
+  {
+    "name": "不完整费用",
+    "budget": "10000",
+    "total": "9999",
+    "quantity": "1",
+    "storage": "256GB",
+    "currencyConfirmed": true,
+    "feesConfirmed": false,
+    "oneTimeConfirmed": true,
+    "expectedConsistent": false
+  },
+  {
+    "name": "分期未排除",
+    "budget": "10000",
+    "total": "9999",
+    "quantity": "1",
+    "storage": "256GB",
+    "currencyConfirmed": true,
+    "feesConfirmed": true,
+    "oneTimeConfirmed": false,
+    "expectedConsistent": false
+  },
+  {
+    "name": "无预算",
+    "budget": "",
+    "total": "9999",
+    "quantity": "1",
+    "storage": "256GB",
+    "currencyConfirmed": true,
+    "feesConfirmed": true,
+    "oneTimeConfirmed": true,
+    "expectedConsistent": false
+  },
+  {
+    "name": "金额精度不明",
+    "budget": "10000",
+    "total": "9999.999",
+    "quantity": "1",
+    "storage": "256GB",
+    "currencyConfirmed": true,
+    "feesConfirmed": true,
+    "oneTimeConfirmed": true,
+    "expectedConsistent": false
+  }
+]

@@ -1,0 +1,15 @@
+STATIC/REFERENCE CHECKS ONLY: Swift, SwiftUI and XCTest are not executed.
+test_review_fixture_expectations (__main__.IndependentFixtureOracleChecks.test_review_fixture_expectations) ... ok
+test_assets (__main__.SourceStructureChecks.test_assets) ... ok
+test_cloud_build_is_manual_and_bounded (__main__.SourceStructureChecks.test_cloud_build_is_manual_and_bounded) ... ok
+test_info_and_privacy_manifests (__main__.SourceStructureChecks.test_info_and_privacy_manifests) ... ok
+test_native_tests_are_present_not_claimed_run (__main__.SourceStructureChecks.test_native_tests_are_present_not_claimed_run) ... ok
+test_no_automation_or_web_injection (__main__.SourceStructureChecks.test_no_automation_or_web_injection) ... ok
+test_reminder_cancel_invalidation_is_present (__main__.SourceStructureChecks.test_reminder_cancel_invalidation_is_present) ... ok
+test_source_references_are_complete (__main__.SourceStructureChecks.test_source_references_are_complete) ... ok
+test_xcode_object_references_are_resolved (__main__.SourceStructureChecks.test_xcode_object_references_are_resolved) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.005s
+
+OK

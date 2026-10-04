@@ -1,0 +1,2 @@
+需要 Swift 5.9+ 工具链；当前没有 swift。
+swift-test exit: 2

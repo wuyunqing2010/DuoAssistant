@@ -59,7 +59,7 @@ jobs:
           test -d "$APP"
           EXECUTABLE=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$APP/Info.plist")
           /usr/bin/file "$APP/$EXECUTABLE"
-          /usr/bin/lipo -verify_arch arm64 "$APP/$EXECUTABLE"
+          /usr/bin/lipo "$APP/$EXECUTABLE" -verify_arch arm64
           mkdir -p build/package/Payload build/artifacts
           /usr/bin/ditto "$APP" build/package/Payload/PurchaseAssistant.app
           (cd build/package && /usr/bin/ditto -c -k --keepParent Payload ../artifacts/PurchaseAssistant-unsigned.ipa)

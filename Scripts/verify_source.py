@@ -77,6 +77,8 @@ class SourceStructureChecks(unittest.TestCase):
         self.assertIn('github.event.repository.private == false', source)
         self.assertIn("github.repository == 'wuyunqing2010/DuoAssistant'", source)
         self.assertIn('CODE_SIGNING_ALLOWED=NO', source)
+        self.assertIn('/usr/bin/lipo "$APP/$EXECUTABLE" -verify_arch arm64', source)
+        self.assertNotIn('/usr/bin/lipo -verify_arch arm64 "$APP/$EXECUTABLE"', source)
 
     def test_native_tests_are_present_not_claimed_run(self):
         source = (ROOT/'Tests/PurchaseCoreTests/PurchaseCoreTests.swift').read_text()

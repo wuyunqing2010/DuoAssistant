@@ -141,7 +141,29 @@ final class PurchaseCoreTests: XCTestCase {
     func testOnlyExactOfficialInitialDestinationsAreAllowed() throws {
         XCTAssertTrue(OfficialDestination.isAllowedInitialURL(OfficialDestination.iPhone))
         XCTAssertTrue(OfficialDestination.isAllowedInitialURL(OfficialDestination.store))
-        for text in ["http://www.apple.com.cn/iphone/", "https://www.apple.com.cn.evil.example/iphone/", "https://www.apple.com.cn@evil.example/iphone/", "https://www.apple.com.cn/iphone/?next=evil", "https://www.apple.com.cn:444/iphone/", "https://www.apple.com.cn/iphone-duo/", "https://www.apple.com.cn/iphone/#x"] {
+        for path in ["/iphone", "/iphone/", "/store", "/store/"] {
+            let url = try XCTUnwrap(URL(string: "https://www.apple.com.cn" + path))
+            XCTAssertTrue(OfficialDestination.isAllowedInitialURL(url), path)
+        }
+        for text in [
+            "http://www.apple.com.cn/iphone/",
+            "https://www.apple.com.cn.evil.example/iphone/",
+            "https://www.apple.com.cn@evil.example/iphone/",
+            "https://user:password@www.apple.com.cn/iphone/",
+            "https://www.apple.com.cn/iphone/?next=evil",
+            "https://www.apple.com.cn/iphone/?",
+            "https://www.apple.com.cn:443/iphone/",
+            "https://www.apple.com.cn:444/iphone/",
+            "https://www.apple.com.cn/iphone-duo/",
+            "https://www.apple.com.cn/iphone/#x",
+            "https://www.apple.com.cn/iphone/#",
+            "https://www.apple.com.cn/iphone//",
+            "https://www.apple.com.cn//iphone/",
+            "https://www.apple.com.cn/iphone/../store",
+            "https://www.apple.com.cn/iphone%2F",
+            "https://www.apple.com.cn/%69phone/",
+            "https://www.apple.com.cn/storefront"
+        ] {
             XCTAssertFalse(OfficialDestination.isAllowedInitialURL(try XCTUnwrap(URL(string: text))), text)
         }
     }
